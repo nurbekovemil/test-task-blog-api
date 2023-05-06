@@ -2,7 +2,7 @@
 
 ### Installation
 
-Blog api - [https://test-task-blog-api.com](https://test-task-blog-api-emil.onrender.com)
+Blog api - [https://test-task-blog-api.com](https://test-task-blog-api-emil.onrender.com/api-docs/)
 
 1. Clone the repo
 
