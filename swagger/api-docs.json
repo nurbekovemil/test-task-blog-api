@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8080"
+      "url": "https://test-task-blog-api-emil.onrender.com"
     }
   ],
   "paths": {
