@@ -7,7 +7,12 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger/api-docs.json");
 const app = express();
 const PORT = 8080;
-
+const cors = require("cors");
+app.use(
+  cors({
+    origin: "https://test-task-blog-api-emil.onrender.com",
+  })
+);
 app.use(express.json());
 app.use(
   "/api-docs",
@@ -25,7 +30,7 @@ const start = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () =>
+    app.listen(PORT, "0.0.0.0", () =>
       console.log(`Server has been started on port`, PORT)
     );
   } catch (e) {
