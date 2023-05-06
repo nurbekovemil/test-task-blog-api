@@ -1,0 +1,4 @@
+{
+  "dbUrl":"mongodb+srv://emil9898:Bd1ujcjvN96SpR0x@practice.jhllokj.mongodb.net/test_task_blog",
+  "jwtSecret": "somesecretkey"
+}

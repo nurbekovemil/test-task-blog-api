@@ -1,0 +1,488 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Test task public api blog",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "summary": "user registration",
+        "tags": [
+          "Auth controllers"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/register"
+              },
+              "example": {
+                "username": "alex",
+                "email": "alex@mail.ru",
+                "password":"alex09"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content":{
+              "application/json":{
+                "example":{
+                  "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NTRkZGJjNmNiYzI1NDQzYTA1MTBhNyIsImlhdCI6MTY4MzMwMjM2NSwiZXhwIjoxNjgzMzA1OTY1fQ.VKRHSHZafUG_z-yqV-obBxFFLztaTmSVvHzXy0x_xG8",
+                  "user":{
+                    "username":"alex",
+                    "email":"alex@mail.ru",
+                    "id":"645523b60ce682707d6dc29c"
+                  },
+                  "message": "User was created"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content":{
+              "application/json":{
+                "example":{
+                  "message": "User with email alex@mail.ru already exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "user authentication",
+        "tags": [
+          "Auth controllers"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/login"
+              },
+              "example": {
+                "username": "alex",
+                "password":"alex09"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content":{
+              "application/json":{
+                "example":{
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NTRkZGJjNmNiYzI1NDQzYTA1MTBhNyIsImlhdCI6MTY4MzMwMjM2NSwiZXhwIjoxNjgzMzA1OTY1fQ.VKRHSHZafUG_z-yqV-obBxFFLztaTmSVvHzXy0x_xG8",
+                  "user": {
+                      "username": "alex",
+                      "id": "6454ddbc6cbc25443a0510a7",
+                      "email": "alex@mail.ru"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content":{
+              "application/json":{
+                "example":{
+                  "message": "User not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/post": {
+      "post": {
+        "summary": "create post",
+        "tags": [
+          "Post controllers"
+        ],
+        "security":[
+          {"bearerAuth":[]}
+        ],
+        "requestBody": {
+          "required": true,
+          
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/post"
+              },
+              "example": {
+                "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content":{
+              "application/json":{
+                "example":{
+                  "post": {
+                    "created": "2023-05-05T16:03:30.874Z",
+                    "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+                    "author": "6454ddbc6cbc25443a0510a7",
+                    "_id": "6455296f1ab7a800adcbfa2c",
+                    "__v": 0
+                }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Bad request",
+            "content":{
+              "application/json":{
+                "example":{
+                  "message": "Has not auth token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "get all posts",
+        "tags": [
+          "Post controllers"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content":{
+              "application/json":{
+                "example":{
+                  "posts": [
+                    {
+                        "_id": "6454e616875530c2396edf54",
+                        "created": "2023-05-05T11:18:18.687Z",
+                        "content": "post 1.",
+                        "author": {
+                            "_id": "6454ddbc6cbc25443a0510a7",
+                            "username": "alex"
+                        },
+                        "__v": 0
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Bad request",
+            "content":{
+              "application/json":{
+                "example":{
+                  "message": "Has not auth token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/post/:id": {
+      "get": {
+        "summary": "get post by id",
+        "tags": [
+          "Post controllers"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "post id",
+            "schema": {
+              "type": "string",
+              "example": "1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content":{
+              "application/json":{
+                "example":{
+                  "post": {
+                    "created": "2023-05-05T16:03:30.874Z",
+                    "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+                    "author": "6454ddbc6cbc25443a0510a7",
+                    "_id": "6455296f1ab7a800adcbfa2c",
+                    "__v": 0
+                }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Bad request",
+            "content":{
+              "application/json":{
+                "example":{
+                  "message": "Has not auth token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "update post by id",
+        "tags": [
+          "Post controllers"
+        ],
+        "security":[
+          {"bearerAuth":[]}
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "post id",
+            "schema": {
+              "type": "string",
+              "example": "1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content":{
+              "application/json":{
+                "example":{
+                  "post": {
+                    "created": "2023-05-05T16:03:30.874Z",
+                    "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+                    "author": "6454ddbc6cbc25443a0510a7",
+                    "_id": "6455296f1ab7a800adcbfa2c",
+                    "__v": 0
+                }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Bad request",
+            "content":{
+              "application/json":{
+                "example":{
+                  "message": "Has not auth token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "delete post by id",
+        "tags": [
+          "Post controllers"
+        ],
+        "security":[
+          {"bearerAuth":[]}
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "post id",
+            "schema": {
+              "type": "string",
+              "example": "1"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/post"
+              },
+              "example": {
+                "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content":{
+              "application/json":{
+                "example":{
+                  "post": {
+                    "created": "2023-05-05T16:03:30.874Z",
+                    "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+                    "author": "6454ddbc6cbc25443a0510a7",
+                    "_id": "6455296f1ab7a800adcbfa2c",
+                    "__v": 0
+                }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Bad request",
+            "content":{
+              "application/json":{
+                "example":{
+                  "message": "Has not auth token"
+                }
+              }
+            }
+          }
+        }
+      }
+
+    },
+    "/api/post/user/:username": {
+      "get": {
+        "summary": "get posts by username",
+        "tags": [
+          "Post controllers"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "description": "username",
+            "schema": {
+              "type": "string",
+              "example": "alex"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content":{
+              "application/json":{
+                "example":{
+                  "posts": [
+                    {
+                        "_id": "6454e617875530c2396edf56",
+                        "created": "2023-05-05T11:18:18.687Z",
+                        "content": "test task blog.",
+                        "author": {
+                            "_id": "6454ddbc6cbc25443a0510a7",
+                            "username": "alex"
+                        },
+                        "__v": 0
+                    },
+                    {
+                        "_id": "6455296f1ab7a800adcbfa2c",
+                        "created": "2023-05-05T16:03:30.874Z",
+                        "content": "test task blog.",
+                        "author": {
+                            "_id": "6454ddbc6cbc25443a0510a7",
+                            "username": "alex"
+                        },
+                        "__v": 0
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Bad request",
+            "content":{
+              "application/json":{
+                "example":{
+                  "message": "Has not auth token"
+                }
+              }
+            }
+          }
+        }
+      }
+
+    }
+  },
+  "components": {
+    "securitySchemes":{
+      "bearerAuth":{
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "register": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "id":{
+            "type":"string"
+          }
+        }
+      },
+      "login":{
+        "type":"object",
+        "properties":{
+          "token":{
+            "type":"string"
+          },
+          "user":{
+            "type":"object",
+            "properties":{
+              "username": {
+                "type":"string"
+              },
+              "id": {
+                "type":"string"
+              },
+              "email":{
+                "type":"string"
+              }
+            }
+          }
+        }
+      },
+      "post":{
+        "type":"object",
+        "properties":{
+          "content":{
+            "type":"string"
+          }
+        }
+      }
+    }
+  }
+}
